@@ -126,11 +126,11 @@ export const Navbar = () => {
           {/* Right: CTA and mobile button */}
           <div className="flex items-center justify-end gap-4 col-span-1">
             <div className="hidden lg:flex items-center gap-4">
-              <Button variant="outline" size="sm" onClick={() => scrollToSection("#contact")}>
+              <Button variant="outline" size="sm" onClick={() => scrollToSection("#contact")}> 
                 <Phone className="w-4 h-4 mr-1" />
                 Book Trial
               </Button>
-              <Button size="sm" className="rounded-full bg-[#95C11F] text-white hover:bg-[#86b216]"> 
+              <Button size="sm" className="rounded-full bg-[#95C11F] text-white hover:bg-[#86b216]" onClick={() => navigate("/pricing")}> 
                 View Prices
               </Button>
             </div>
