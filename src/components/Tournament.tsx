@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import leftPlayerImg from "@/assets/image13.png";
-import rightPlayerImg from "@/assets/image12.png";
-import leftRacket from "@/assets/image1.png";
-import rightRacket from "@/assets/image.png";
+import leftPlayerImg from "@/assets/Image13.png";
+import rightPlayerImg from "@/assets/Image12.png";
+import leftRacket from "@/assets/Image1.png";
+import rightRacket from "@/assets/Image.png";
 
 /* ================= IMAGES ================= */
 const IMAGES = {
