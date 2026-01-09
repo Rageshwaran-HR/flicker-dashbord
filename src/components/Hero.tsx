@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Play, ChevronRight } from "lucide-react";
-import heroBg from "@/assets/hero-bg.jpg";
+import heroBg from "@/assets/hero-bg.png";
 import academyCourt from "@/assets/academy-court.jpg";
 import ach1 from "@/assets/achievement-1.jpg";
 import ach2 from "@/assets/achievement-2.jpg";
@@ -16,7 +16,7 @@ export const Hero = () => {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 scroll-mt-24"
     >
       {/* Background Image */}
       <div
@@ -24,11 +24,11 @@ export const Hero = () => {
         style={{ backgroundImage: `url(${heroBg})` }}
       />
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/90" />
+      {/* Subtle overlay for readability (removed heavy white overlay) */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-transparent" />
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 md:px-8 text-center">
+      <div className="relative z-10 container mx-auto px-4 md:px-8 text-center text-white">
         <div className="max-w-5xl mx-auto space-y-8">
 
 
@@ -40,7 +40,7 @@ export const Hero = () => {
           </h1>
 
           {/* Subheading */}
-          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-white/85 max-w-2xl mx-auto">
             Expert Coaching for All Ages. World-class training, modern courts,
             and performance-driven programs.
           </p>
@@ -51,14 +51,16 @@ export const Hero = () => {
               Book Your Free Trial
             </Button>
 
-            <Button
-              variant="heroOutline"
-              size="lg"
-              onClick={() => scrollToSection("#about")}
-            >
-              <Play className="w-4 h-4 mr-2" />
-              Watch Video
-            </Button>
+      <Button
+        variant="heroOutline"
+        size="lg"
+        onClick={() => scrollToSection("#about")}
+        className="text-white border-white hover:bg-white/10"
+      >
+        <Play className="w-4 h-4 mr-2 text-white fill-white" />
+        Watch Video
+      </Button>
+
           </div>
 
           {/* Stats */}
@@ -72,7 +74,7 @@ export const Hero = () => {
                 <div className="text-3xl md:text-4xl font-bold text-primary">
                   {stat.value}
                 </div>
-                <div className="text-sm text-gray-400">{stat.label}</div>
+                <div className="text-sm text-white/80">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -121,7 +123,7 @@ export const Hero = () => {
 
                   {/* Text */}
                   <div className="flex-1 pl-4 text-left">
-                    <p className="text-sm text-gray-400 font-medium leading-none">
+                    <p className="text-sm text-muted-foreground font-medium leading-none">
                       {card.title}
                     </p>
 

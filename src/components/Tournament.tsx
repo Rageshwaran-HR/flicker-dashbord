@@ -1,188 +1,147 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Calendar, MapPin, Clock, Trophy, Users } from "lucide-react";
+import leftPlayerImg from "@/assets/image13.png";
+import rightPlayerImg from "@/assets/image12.png";
+import leftRacket from "@/assets/image1.png";
+import rightRacket from "@/assets/image.png";
+
+/* ================= IMAGES ================= */
+const IMAGES = {
+  leftPlayer: leftPlayerImg,
+  rightPlayer: rightPlayerImg,
+  leftRacket,
+  rightRacket,
+};
+/* ========================================== */
 
 type TournamentTab = "past" | "ongoing" | "future";
-
-interface TournamentMatch {
-  id: number;
-  title: string;
-  location: string;
-  date: string;
-  time: string;
-  teams: { name: string; score?: number }[];
-  status: TournamentTab;
-  category: string;
-}
-
-const tournaments: TournamentMatch[] = [
-  {
-    id: 1,
-    title: "Flick Badminton League Junior",
-    location: "Flick Academy, Chennai",
-    date: "Dec 15, 2025",
-    time: "9:00 AM",
-    teams: [{ name: "U-13 Boys", score: 21 }, { name: "U-15 Boys", score: 18 }],
-    status: "past",
-    category: "Junior League",
-  },
-  {
-    id: 2,
-    title: "Intramural Juniors Tournament",
-    location: "Flick Academy, Chennai",
-    date: "Jan 10, 2026",
-    time: "10:00 AM",
-    teams: [{ name: "Team Alpha" }, { name: "Team Beta" }],
-    status: "ongoing",
-    category: "Internal",
-  },
-  {
-    id: 3,
-    title: "Chennai District Championship",
-    location: "SDAT Stadium, Chennai",
-    date: "Feb 20, 2026",
-    time: "8:00 AM",
-    teams: [{ name: "Flick Academy" }, { name: "TBD" }],
-    status: "future",
-    category: "District Level",
-  },
-  {
-    id: 4,
-    title: "Mens Doubles Championship",
-    location: "Flick Academy, Chennai",
-    date: "Nov 28, 2025",
-    time: "2:00 PM",
-    teams: [{ name: "Team Winners", score: 21 }, { name: "Team Runners", score: 15 }],
-    status: "past",
-    category: "Doubles",
-  },
-];
 
 export const Tournament = () => {
   const [activeTab, setActiveTab] = useState<TournamentTab>("ongoing");
 
-  const filteredTournaments = tournaments.filter((t) => t.status === activeTab);
+  const TAB_CONTENT: Record<TournamentTab, {
+    title: string;
+    date: string;
+    time: string;
+    venue: string;
+    buttonText: string;
+  }> = {
+    past: {
+      title: "LAST BADMINTON MATCH",
+      date: "Saturday, July 2nd, 2023",
+      time: "6:30 PM",
+      venue: "San Diego Badminton Arena, 500 Shuttle Dr",
+      buttonText: "View Results",
+    },
+    ongoing: {
+      title: "NEXT BADMINTON MATCH",
+      date: "Sunday, July 9th, 2023",
+      time: "8:45 PM",
+      venue: "San Diego Badminton Arena, 500 Shuttle Dr",
+      buttonText: "View Fixtures",
+    },
+    future: {
+      title: "UPCOMING BADMINTON MATCH",
+      date: "Sunday, July 23rd, 2023",
+      time: "7:00 PM",
+      venue: "Pacific Palms Court, 120 Court Ln",
+      buttonText: "Register",
+    },
+  };
 
   return (
-    <section id="tournament" className="section-padding bg-card/30">
-      <div className="container-custom mx-auto">
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <span className="text-primary font-semibold text-sm tracking-wider uppercase">Competitions</span>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl mt-2 mb-4">
-            TOURNAMENTS & <span className="text-primary">MATCHES</span>
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Stay updated with our latest tournaments, ongoing matches, and upcoming events
-          </p>
-        </div>
+    <section id="tournament" className="py-16 md:py-24 bg-[#f4fff5]">
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Title */}
+        <h2 className="text-center text-5xl font-extrabold tracking-tight mb-14">
+          TOURNAMENT
+        </h2>
 
-        {/* Tabs */}
-        <div className="flex justify-center mb-10">
-          <div className="inline-flex bg-muted/50 rounded-xl p-1.5">
+        {/* Main Panel */}
+        <div className="relative bg-[#dff2c2] rounded-[36px] px-6 md:px-10 py-8 md:py-16 overflow-hidden">
+          {/* Rackets */}
+          <img
+            src={IMAGES.leftRacket}
+            className="hidden md:block absolute left-[-10px] top-[70%] -translate-y-1/2 w-[150px] opacity-80"
+            alt=""
+          />
+          <img
+            src={IMAGES.rightRacket}
+            className="hidden md:block absolute right-[-10px] top-[70%] -translate-y-1/2 w-[150px] opacity-80"
+            alt=""
+          />
+
+          {/* Tabs */}
+          <div className="flex justify-center gap-8 md:gap-14 mb-8 md:mb-12 text-base md:text-lg font-semibold">
             {(["past", "ongoing", "future"] as TournamentTab[]).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-6 py-2.5 rounded-lg font-medium text-sm transition-all duration-300 ${
+                className={`relative transition ${
                   activeTab === tab
-                    ? "bg-primary text-primary-foreground shadow-lg"
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "text-black after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-10 after:h-[3px] after:bg-green-600 after:rounded-full"
+                    : "text-black/50"
                 }`}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
               </button>
             ))}
           </div>
-        </div>
 
-        {/* Tournament Cards */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {filteredTournaments.map((tournament, index) => (
-            <div
-              key={tournament.id}
-              className="group bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 animate-fade-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              {/* Category Badge */}
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-xs font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full">
-                  {tournament.category}
-                </span>
-                {tournament.status === "ongoing" && (
-                  <span className="flex items-center gap-1.5 text-xs text-flick-gold font-medium">
-                    <div className="w-2 h-2 bg-flick-gold rounded-full animate-pulse" />
-                    LIVE
-                  </span>
-                )}
-              </div>
+          {/* Heading */}
+          <h3 className="text-center text-2xl md:text-3xl font-bold mb-6 md:mb-14">
+            {(() => {
+              const parts = TAB_CONTENT[activeTab].title.split("BADMINTON");
+              return (
+                <>
+                  {parts[0]}
+                  <span className="text-green-600">BADMINTON</span>
+                  {parts[1]}
+                </>
+              );
+            })()}
+          </h3>
 
-              {/* Title */}
-              <h3 className="font-display text-2xl md:text-3xl mb-4 group-hover:text-primary transition-colors">
-                {tournament.title}
-              </h3>
+          {/* Match Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-12">
+            {/* Left Player */}
+            <div className="text-center">
+              <img
+                src={IMAGES.leftPlayer}
+                className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-4 md:mb-5"
+                alt=""
+              />
+              <p className="text-sm text-black/50">#7 SAN DIEGO</p>
+              <h4 className="text-2xl font-extrabold mt-1">CHENNAI</h4>
+            </div>
 
-              {/* Details */}
-              <div className="space-y-2 mb-6">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <MapPin className="w-4 h-4 text-primary" />
-                  {tournament.location}
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Calendar className="w-4 h-4 text-primary" />
-                    {tournament.date}
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Clock className="w-4 h-4 text-primary" />
-                    {tournament.time}
-                  </div>
-                </div>
-              </div>
-
-              {/* Teams */}
-              <div className="bg-muted/30 rounded-xl p-4 mb-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
-                      <Users className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-sm">{tournament.teams[0].name}</p>
-                      {tournament.teams[0].score !== undefined && (
-                        <p className="text-2xl font-display text-primary">{tournament.teams[0].score}</p>
-                      )}
-                    </div>
-                  </div>
-                  <span className="text-muted-foreground font-display text-xl">VS</span>
-                  <div className="flex items-center gap-3">
-                    <div className="text-right">
-                      <p className="font-semibold text-sm">{tournament.teams[1].name}</p>
-                      {tournament.teams[1].score !== undefined && (
-                        <p className="text-2xl font-display text-muted-foreground">{tournament.teams[1].score}</p>
-                      )}
-                    </div>
-                    <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
-                      <Users className="w-5 h-5 text-muted-foreground" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Action */}
-              <Button variant="outline" className="w-full group-hover:variant-default">
-                <Trophy className="w-4 h-4 mr-2" />
-                View Fixtures
+            {/* Center Card */}
+            <div className="bg-white rounded-3xl px-6 py-6 text-center shadow-[0_14px_28px_rgba(0,0,0,0.10)] w-full max-w-[320px] mx-auto md:mx-0">
+              <p className="text-xs uppercase text-gray-500 mb-2">
+                Division One Badminton Championship
+              </p>
+              <p className="text-sm mb-1">{TAB_CONTENT[activeTab].date}</p>
+              <p className="text-2xl md:text-3xl font-extrabold mb-2">{TAB_CONTENT[activeTab].time}</p>
+              <p className="text-xs text-gray-500 leading-relaxed mb-4">
+                {TAB_CONTENT[activeTab].venue}
+              </p>
+              <Button className="bg-green-600 hover:bg-green-700 text-white rounded-full px-6 py-2 text-sm">
+                {TAB_CONTENT[activeTab].buttonText}
               </Button>
             </div>
-          ))}
-        </div>
 
-        {filteredTournaments.length === 0 && (
-          <div className="text-center py-12 text-muted-foreground">
-            No {activeTab} tournaments available at the moment.
+            {/* Right Player */}
+            <div className="text-center">
+              <img
+                src={IMAGES.rightPlayer}
+                className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-4 md:mb-5"
+                alt=""
+              />
+              <p className="text-sm text-black/50">#8 PACIFIC PALMS</p>
+              <h4 className="text-2xl font-extrabold mt-1">THIRUVALLUR</h4>
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </section>
   );

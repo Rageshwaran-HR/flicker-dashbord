@@ -39,8 +39,8 @@ export const About = () => {
                 alt="Flick Academy Courts"
                 className="w-full h-[400px] lg:h-[500px] object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              {/* Overlay Stats */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background/80 to-transparent p-6">
+              {/* Overlay Stats (reduced white overlay) */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-transparent via-transparent to-transparent p-6">
                 <div className="grid grid-cols-3 gap-4">
                   {[
                     { value: "6", label: "Courts" },

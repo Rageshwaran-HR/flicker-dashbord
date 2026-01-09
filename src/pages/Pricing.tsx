@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import heroBg from "@/assets/hero-bg.png";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -88,20 +89,26 @@ const Pricing = () => {
 
   return (
     <main className="min-h-screen bg-background">
-      <Navbar />
+      <Navbar light glass />
 
       {/* Hero */}
       <section className="relative overflow-hidden pt-28 pb-16 md:pt-32 md:pb-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/85 to-background" />
-        <div className="absolute inset-0 bg-gradient-radial from-primary/10 via-transparent to-transparent opacity-60" />
+        {/* Background image like hero */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${heroBg})` }}
+        />
 
-        <div className="relative z-10 container-custom mx-auto px-4 md:px-8">
+        {/* Subtle dark overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/25 to-black/40" />
+        <div className="absolute inset-0 bg-gradient-radial from-primary/6 via-transparent to-transparent opacity-20" />
+
+        <div className="relative z-10 container-custom mx-auto px-4 md:px-8 text-white">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 bg-primary/20 border border-primary/30 rounded-full px-4 py-2 animate-fade-in">
               <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
               <span className="text-sm font-medium text-primary">Simple plans. Serious training.</span>
-            </div>
-
+              </div>
             <h1
               className="font-display text-5xl md:text-6xl lg:text-7xl tracking-wider leading-none mt-6 animate-fade-in"
               style={{ animationDelay: "0.1s" }}
@@ -112,10 +119,11 @@ const Pricing = () => {
             </h1>
 
             <p
-              className="text-lg md:text-xl text-muted-foreground mt-6 max-w-2xl animate-fade-in"
+              className="text-lg md:text-xl text-white/85 mt-6 max-w-2xl animate-fade-in"
               style={{ animationDelay: "0.2s" }}
             >
-              Pick a plan that matches your level and goals. Start with a free trial, then upgrade when
+              Pick a plan that matches your level and goals. Start with a free trial, then
+              upgrade when
               you’re ready.
             </p>
 
@@ -227,7 +235,7 @@ const Pricing = () => {
                   Book a free trial and we’ll recommend the right batch based on your level and goals.
                 </p>
               </div>
-              <Button variant="hero" size="lg" onClick={scrollToContact}>
+              <Button variant="hero" size="lg" className="text-white" onClick={scrollToContact}>
                 Book Trial
                 <ArrowRight className="w-4 h-4" />
               </Button>

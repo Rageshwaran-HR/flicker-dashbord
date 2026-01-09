@@ -6,26 +6,26 @@
 
 @layer base {
   :root {
-    /* Dark athletic theme with vibrant green accents */
-    --background: 220 20% 6%;
-    --foreground: 0 0% 98%;
+    /* Light theme with vibrant green accents */
+    --background: 142 90% 97%;
+    --foreground: 222.2 47.4% 11.2%;
 
-    --card: 220 18% 10%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
 
-    --popover: 220 18% 10%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
 
     /* Vibrant green primary */
     --primary: 142 76% 45%;
     --primary-foreground: 0 0% 98%;
     --primary-glow: 142 76% 55%;
 
-    --secondary: 220 15% 15%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 220 12% 20%;
-    --muted-foreground: 220 10% 60%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
     --accent: 142 60% 40%;
     --accent-foreground: 0 0% 98%;
@@ -33,8 +33,8 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 15% 18%;
-    --input: 220 15% 18%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
     --ring: 142 76% 45%;
 
     --radius: 0.75rem;
@@ -44,31 +44,31 @@
     --flick-green-light: 142 70% 55%;
     --flick-green-dark: 142 80% 30%;
     --flick-gold: 45 90% 50%;
-    --flick-dark: 220 20% 6%;
-    --flick-card: 220 18% 10%;
+    --flick-dark: 0 0% 100%;
+    --flick-card: 0 0% 100%;
 
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(142, 76%, 45%), hsl(142, 70%, 35%));
-    --gradient-hero: linear-gradient(180deg, hsla(220, 20%, 6%, 0.4) 0%, hsla(220, 20%, 6%, 0.9) 100%);
-    --gradient-card: linear-gradient(180deg, hsla(220, 18%, 12%, 0.8) 0%, hsla(220, 18%, 8%, 1) 100%);
+    --gradient-hero: linear-gradient(180deg, hsla(0, 0%, 100%, 0.65) 0%, hsla(0, 0%, 100%, 0.9) 100%);
+    --gradient-card: linear-gradient(180deg, hsla(0, 0%, 100%, 0.9) 0%, hsla(210, 40%, 96%, 1) 100%);
     --gradient-glow: radial-gradient(ellipse at center, hsla(142, 76%, 45%, 0.15) 0%, transparent 70%);
 
     /* Shadows */
     --shadow-glow: 0 0 60px hsla(142, 76%, 45%, 0.3);
-    --shadow-card: 0 10px 40px -10px hsla(0, 0%, 0%, 0.5);
-    --shadow-elevated: 0 25px 50px -12px hsla(0, 0%, 0%, 0.6);
+    --shadow-card: 0 10px 40px -10px hsla(222, 47%, 11%, 0.15);
+    --shadow-elevated: 0 25px 50px -12px hsla(222, 47%, 11%, 0.2);
 
     /* Typography */
     --font-display: 'Bebas Neue', sans-serif;
     --font-body: 'Outfit', sans-serif;
 
-    --sidebar-background: 220 18% 8%;
-    --sidebar-foreground: 0 0% 98%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222.2 47.4% 11.2%;
     --sidebar-primary: 142 76% 45%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 220 15% 15%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 220 15% 18%;
+    --sidebar-accent: 210 40% 96.1%;
+    --sidebar-accent-foreground: 222.2 47.4% 11.2%;
+    --sidebar-border: 214.3 31.8% 91.4%;
     --sidebar-ring: 142 76% 45%;
   }
 
@@ -113,7 +113,16 @@
   }
 
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply text-foreground font-body antialiased;
+    background-color: hsl(var(--background));
+    background-image: 
+      radial-gradient(700px 350px at 10% 10%, hsla(142, 76%, 45%, 0.06), transparent 20%),
+      radial-gradient(500px 250px at 90% 80%, hsla(142, 76%, 45%, 0.03), transparent 18%),
+      linear-gradient(180deg, hsla(142, 76%, 45%, 0.02), transparent 60%),
+      repeating-linear-gradient(135deg, rgba(16,185,129,0.015) 0 1px, transparent 1px 40px);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -124,7 +133,7 @@
 
 @layer components {
   .section-padding {
-    @apply py-20 lg:py-28 px-4 md:px-8;
+    @apply py-20 lg:py-28 px-4 md:px-8 scroll-mt-24;
   }
 
   .container-custom {
@@ -148,7 +157,26 @@
   }
 
   .glass-effect {
-    @apply bg-card/80 backdrop-blur-xl border border-border/50;
+    @apply bg-card/80 backdrop-blur-xl border border-border/30;
+    background-color: rgba(255,255,255,0.72);
+    box-shadow: 0 8px 30px -10px hsla(142, 76%, 45%, 0.08);
+  }
+
+  /* Subtle green-themed section background with soft radial highlights */
+  .section-bg-green {
+    background-color: hsl(var(--background));
+    background-image:
+      radial-gradient(600px 300px at 10% 10%, hsla(142, 76%, 45%, 0.06), transparent 20%),
+      radial-gradient(500px 250px at 90% 80%, hsla(142, 76%, 45%, 0.03), transparent 18%),
+      linear-gradient(180deg, hsla(142, 76%, 45%, 0.02), transparent 60%);
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  /* Very subtle diagonal stripe pattern to add texture */
+  .pattern-stripes {
+    background-image: repeating-linear-gradient(135deg, rgba(16,185,129,0.02) 0 1px, transparent 1px 40px);
+    background-blend-mode: overlay;
   }
 }
 

@@ -57,8 +57,8 @@ export const Coaches = () => {
                   alt={coach.name}
                   className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700"
                 />
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+                {/* Gradient Overlay (removed heavy white overlay) */}
+                <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-transparent" />
                 
                 {/* Social Links */}
                 <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-300">
@@ -74,14 +74,14 @@ export const Coaches = () => {
               </div>
 
               {/* Content */}
-              <div className="absolute bottom-0 left-0 right-0 p-6">
+              <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-2 h-2 bg-primary rounded-full" />
                   <span className="text-xs text-primary font-medium">{coach.experience}</span>
                 </div>
-                <h3 className="font-display text-2xl text-foreground mb-1">{coach.name}</h3>
+                <h3 className="font-display text-2xl text-white mb-1">{coach.name}</h3>
                 <p className="text-primary font-medium text-sm mb-2">{coach.role}</p>
-                <p className="text-muted-foreground text-sm">{coach.specialization}</p>
+                <p className="text-white/80 text-sm">{coach.specialization}</p>
               </div>
             </div>
           ))}
