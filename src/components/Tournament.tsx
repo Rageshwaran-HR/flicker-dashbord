@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import leftPlayerImg from "@/assets/Image13.png";
 import rightPlayerImg from "@/assets/Image12.png";
@@ -16,38 +16,122 @@ const IMAGES = {
 
 type TournamentTab = "past" | "ongoing" | "future";
 
+import { subscribeTournaments, mapTournamentDoc } from "@/lib/firestore/academy";
+import { fetchCollection } from "@/lib/firebase";
+
 export const Tournament = () => {
   const [activeTab, setActiveTab] = useState<TournamentTab>("ongoing");
+  const [tournaments, setTournaments] = useState<any[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const TAB_CONTENT: Record<TournamentTab, {
-    title: string;
-    date: string;
-    time: string;
-    venue: string;
-    buttonText: string;
-  }> = {
-    past: {
-      title: "LAST BADMINTON MATCH",
-      date: "Saturday, July 2nd, 2023",
-      time: "6:30 PM",
-      venue: "San Diego Badminton Arena, 500 Shuttle Dr",
-      buttonText: "View Results",
-    },
-    ongoing: {
-      title: "NEXT BADMINTON MATCH",
-      date: "Sunday, July 9th, 2023",
-      time: "8:45 PM",
-      venue: "San Diego Badminton Arena, 500 Shuttle Dr",
-      buttonText: "View Fixtures",
-    },
-    future: {
-      title: "UPCOMING BADMINTON MATCH",
-      date: "Sunday, July 23rd, 2023",
-      time: "7:00 PM",
-      venue: "Pacific Palms Court, 120 Court Ln",
-      buttonText: "Register",
-    },
-  };
+  // Titles per tab (keeps heading structure but no fake date/time/venue)
+  const titleForTab = (tab: TournamentTab) =>
+    tab === "past" ? "LAST BADMINTON MATCH" : tab === "ongoing" ? "NEXT BADMINTON MATCH" : "UPCOMING BADMINTON MATCH";
+
+  useEffect(() => {
+    let mounted = true;
+
+    const isFirebaseConfigured = () => {
+      const env = (import.meta as any).env || {};
+      return !!(env.VITE_FIREBASE_API_KEY && env.VITE_FIREBASE_PROJECT_ID && env.VITE_FIREBASE_APP_ID);
+    };
+
+    if (!isFirebaseConfigured()) {
+      setError("Missing Firebase env vars. Set VITE_FIREBASE_* in .env.local to fetch real data.");
+      setLoading(false);
+      return;
+    }
+
+    const run = async () => {
+      setLoading(true);
+      try {
+        // Prefetch once to populate quickly
+        const raw = await fetchCollection("tournaments");
+        if (!mounted) return;
+        if (raw && raw.length > 0) {
+          // raw items are plain objects with `id`
+          const docs = raw.map((r: any) => ({ id: r.id, data: () => { const c = { ...r }; delete c.id; return c; } }));
+          const items = docs.map((d: any) => mapTournamentDoc(d)).map((it: any) => ({
+            ...it,
+            startTs: it.startDate && typeof it.startDate.toDate === "function" ? it.startDate.toDate().getTime() : 0,
+          }));
+          items.sort((a: any, b: any) => (a.startTs || 0) - (b.startTs || 0));
+          setTournaments(items);
+        }
+      } catch (e) {
+        console.warn("fetchCollection(tournaments) failed", e);
+      }
+
+      // Then subscribe for live updates
+      const unsub = subscribeTournaments(
+        (docs) => {
+          if (!mounted) return;
+          try {
+            const items = docs.map((d: any) => mapTournamentDoc(d)).map((it: any) => ({
+              ...it,
+              startTs: it.startDate && typeof it.startDate.toDate === "function" ? it.startDate.toDate().getTime() : 0,
+            }));
+            items.sort((a: any, b: any) => (a.startTs || 0) - (b.startTs || 0));
+            setTournaments(items);
+            console.log("tournaments mapped:", items);
+            setError(null);
+          } catch (err) {
+            console.error("tournaments subscribe error", err);
+            setError(String(err));
+          } finally {
+            setLoading(false);
+          }
+        },
+        (err: Error) => {
+          console.error("tournaments subscribe error", err);
+          setError(String(err));
+          setLoading(false);
+        }
+      );
+
+      return unsub;
+    };
+
+    let unsubPromise: any;
+    (async () => {
+      const u = await run();
+      unsubPromise = u;
+    })();
+
+    return () => {
+      mounted = false;
+      if (typeof unsubPromise === "function") unsubPromise();
+      if (unsubPromise && typeof unsubPromise.then === "function") {
+        unsubPromise.then((u: any) => u && typeof u === "function" && u());
+      }
+    };
+  }, []);
+
+  function tournamentForTab(tab: TournamentTab) {
+    if (!tournaments || tournaments.length === 0) return null;
+    const now = Date.now();
+
+    if (tab === "ongoing") {
+      const ongoing = tournaments.find((t) => t.status === "Ongoing");
+      if (ongoing) return ongoing;
+      // nearest upcoming (start >= now)
+      const nearestUpcoming = tournaments.filter((t) => t.startTs >= now).sort((a, b) => (a.startTs || 0) - (b.startTs || 0))[0];
+      if (nearestUpcoming) return nearestUpcoming;
+      // fallback to most recent completed
+      const recentPast = tournaments.filter((t) => t.startTs < now).sort((a, b) => (b.startTs || 0) - (a.startTs || 0))[0];
+      return recentPast || tournaments[0];
+    }
+
+    if (tab === "future") {
+      const nearestUpcoming = tournaments.filter((t) => t.startTs >= now).sort((a, b) => (a.startTs || 0) - (b.startTs || 0))[0];
+      return nearestUpcoming || tournaments.find((t) => t.status === "Upcoming") || tournaments[0];
+    }
+
+    // past
+    const recentPast = tournaments.filter((t) => t.startTs < now).sort((a, b) => (b.startTs || 0) - (a.startTs || 0))[0];
+    return recentPast || tournaments.find((t) => t.status === "Completed") || tournaments[0];
+  }
 
   return (
     <section id="tournament" className="py-16 md:py-24 bg-[#f4fff5]">
@@ -91,7 +175,7 @@ export const Tournament = () => {
           {/* Heading */}
           <h3 className="text-center text-2xl md:text-3xl font-bold mb-6 md:mb-14">
             {(() => {
-              const parts = TAB_CONTENT[activeTab].title.split("BADMINTON");
+              const parts = titleForTab(activeTab).split("BADMINTON");
               return (
                 <>
                   {parts[0]}
@@ -117,17 +201,43 @@ export const Tournament = () => {
 
             {/* Center Card */}
             <div className="bg-white rounded-3xl px-6 py-6 text-center shadow-[0_14px_28px_rgba(0,0,0,0.10)] w-full max-w-[320px] mx-auto md:mx-0">
-              <p className="text-xs uppercase text-gray-500 mb-2">
-                Division One Badminton Championship
-              </p>
-              <p className="text-sm mb-1">{TAB_CONTENT[activeTab].date}</p>
-              <p className="text-2xl md:text-3xl font-extrabold mb-2">{TAB_CONTENT[activeTab].time}</p>
-              <p className="text-xs text-gray-500 leading-relaxed mb-4">
-                {TAB_CONTENT[activeTab].venue}
-              </p>
-              <Button className="bg-green-600 hover:bg-green-700 text-white rounded-full px-6 py-2 text-sm">
-                {TAB_CONTENT[activeTab].buttonText}
-              </Button>
+                  {(() => {
+                    const t = tournamentForTab(activeTab);
+                    if (!t) {
+                      return (
+                        <>
+                          <p className="text-xs uppercase text-gray-500 mb-2">No tournament data</p>
+                          <p className="text-sm mb-1">TBA</p>
+                          <p className="text-2xl md:text-3xl font-extrabold mb-2">TBA</p>
+                          <p className="text-xs text-gray-500 leading-relaxed mb-4">Details will appear here when tournaments are available.</p>
+                          <Button disabled className="bg-green-600 text-white rounded-full px-6 py-2 text-sm opacity-50 cursor-not-allowed">TBA</Button>
+                        </>
+                      );
+                    }
+
+                    const buttonText = t.status === "Completed" ? "View Results" : t.status === "Ongoing" ? "View Fixtures" : "Register";
+                    const timeText = (() => {
+                      if (t.startDate && typeof t.startDate.toDate === "function") {
+                        try {
+                          const dt = t.startDate.toDate();
+                          return dt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+                        } catch {
+                          return "TBA";
+                        }
+                      }
+                      return "TBA";
+                    })();
+
+                    return (
+                      <>
+                        <p className="text-xs uppercase text-gray-500 mb-2">{t.name}</p>
+                        <p className="text-sm mb-1">{t.date || "TBA"}</p>
+                        <p className="text-2xl md:text-3xl font-extrabold mb-2">{timeText}</p>
+                        <p className="text-xs text-gray-500 leading-relaxed mb-4">{t.venue || "TBA"}</p>
+                        <Button className="bg-green-600 hover:bg-green-700 text-white rounded-full px-6 py-2 text-sm">{buttonText}</Button>
+                      </>
+                    );
+                  })()}
             </div>
 
             {/* Right Player */}

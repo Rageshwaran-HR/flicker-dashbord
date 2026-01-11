@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Badminton Academy Firestore Schema (informational)",
+  "type": "object",
+  "description": "This file documents the intended Firestore collections and fields. Firestore does not enforce schemas; this is for consistency.",
+  "properties": {
+    "players": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "age": { "type": "number" },
+          "training": { "enum": ["Beginner", "Intermediate", "Advanced"] },
+          "status": { "enum": ["Available", "Injury"] },
+          "stamina": { "type": "number" },
+          "winRate": { "type": "number" },
+          "speed": { "type": "number" },
+          "techniques": { "type": "number" },
+          "footwork": { "type": "number" },
+          "wins": { "type": "number" },
+          "losses": { "type": "number" },
+          "remarks": { "type": "string" },
+          "batch": { "enum": ["morning", "evening", "weekend"] },
+          "imageUrl": { "type": "string" },
+          "createdAt": { "type": "string", "description": "Firestore Timestamp" }
+        },
+        "required": [
+          "name",
+          "age",
+          "training",
+          "status",
+          "stamina",
+          "winRate",
+          "speed",
+          "techniques",
+          "footwork",
+          "wins",
+          "losses",
+          "remarks",
+          "batch",
+          "createdAt"
+        ]
+      }
+    },
+    "tournaments": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "startDate": { "type": "string", "description": "Firestore Timestamp" },
+          "endDate": { "type": "string", "description": "Firestore Timestamp" },
+          "venue": { "type": "string" },
+          "category": { "type": "array", "items": { "type": "string" } },
+          "status": { "enum": ["Upcoming", "Ongoing", "Completed"] },
+          "participantsCount": { "type": "number" },
+          "liveScore": { "type": "string" },
+          "winnerPlayerId": { "type": "string" },
+          "runnerUpPlayerId": { "type": "string" },
+          "createdAt": { "type": "string", "description": "Firestore Timestamp" }
+        },
+        "required": [
+          "name",
+          "startDate",
+          "endDate",
+          "venue",
+          "category",
+          "status",
+          "participantsCount",
+          "createdAt"
+        ]
+      }
+    },
+    "matches": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "tournamentId": { "type": "string" },
+          "scheduledAt": { "type": "string", "description": "Firestore Timestamp" },
+          "court": { "type": "string" },
+          "status": { "enum": ["Upcoming", "Ongoing", "Finished"] },
+          "player1Id": { "type": "string" },
+          "player2Id": { "type": "string" },
+          "playerIds": { "type": "array", "items": { "type": "string" } },
+          "sets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "set": { "type": "number" },
+                "p1": { "type": "number" },
+                "p2": { "type": "number" }
+              },
+              "required": ["set", "p1", "p2"]
+            }
+          },
+          "winnerPlayerId": { "type": "string" },
+          "scoreText": { "type": "string" },
+          "createdAt": { "type": "string", "description": "Firestore Timestamp" }
+        },
+        "required": ["scheduledAt", "court", "status", "player1Id", "player2Id", "playerIds", "createdAt"]
+      }
+    },
+    "rankings": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "season": { "type": "string" },
+          "category": { "type": "string" },
+          "updatedAt": { "type": "string", "description": "Firestore Timestamp" },
+          "entries": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "playerId": { "type": "string" },
+                "rank": { "type": "number" },
+                "points": { "type": "number" },
+                "won": { "type": "number" },
+                "consistency": { "type": "number" },
+                "movement": { "enum": ["up", "down", "none"] },
+                "delta": { "type": "number" }
+              },
+              "required": ["playerId", "rank", "points", "won", "consistency", "movement"]
+            }
+          }
+        },
+        "required": ["season", "category", "updatedAt", "entries"]
+      }
+    }
+  },
+  "required": ["players", "tournaments", "matches", "rankings"]
+}

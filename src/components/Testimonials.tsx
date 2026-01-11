@@ -1,12 +1,22 @@
 import { useState } from "react";
 import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
-const testimonials = [
+type Testimonial = {
+  id?: string | number;
+  name?: string;
+  role?: string;
+  image?: string;
+  rating?: number;
+  text?: string;
+};
+
+const defaultTestimonials: Testimonial[] = [
   {
     id: 1,
     name: "Priya Menon",
     role: "Parent of U-13 Student",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
+    image:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
     rating: 5,
     text: "My son has transformed completely since joining Flick Academy. The coaches are patient, professional, and truly care about each student's development. Highly recommended!",
   },
@@ -14,7 +24,8 @@ const testimonials = [
     id: 2,
     name: "Arun Krishnan",
     role: "Adult Player",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
     rating: 5,
     text: "As someone who started learning badminton at 35, I was nervous about joining. But the supportive environment at Flick made it enjoyable. Great facilities and excellent coaching!",
   },
@@ -22,7 +33,8 @@ const testimonials = [
     id: 3,
     name: "Lakshmi Rajan",
     role: "Parent of District Champion",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    image:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
     rating: 5,
     text: "My daughter won her first district title after training here for just 2 years. The structured training program and tournament exposure made all the difference.",
   },
@@ -30,14 +42,16 @@ const testimonials = [
     id: 4,
     name: "Vikram Singh",
     role: "Former Student",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    image:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
     rating: 5,
     text: "Flick Academy gave me the foundation to pursue badminton professionally. The discipline and techniques I learned here are invaluable. Forever grateful!",
   },
 ];
 
-export const Testimonials = () => {
+export const Testimonials = ({ testimonialsProp }: { testimonialsProp?: Testimonial[] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const testimonials = testimonialsProp && testimonialsProp.length ? testimonialsProp : defaultTestimonials;
 
   const nextTestimonial = () => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);

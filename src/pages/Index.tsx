@@ -9,11 +9,14 @@ import { Stats } from "@/components/Stats";
 import { Testimonials } from "@/components/Testimonials";
 import { FAQ } from "@/components/FAQ";
 import { Footer } from "@/components/Footer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { fetchCollection } from "../lib/firebase";
 
 const Index = () => {
   const location = useLocation();
+  const [testimonials, setTestimonials] = useState<any[] | null>(null);
+  const [coaches, setCoaches] = useState<any[] | null>(null);
 
   useEffect(() => {
     // Update page title and meta description
@@ -43,6 +46,38 @@ const Index = () => {
     return () => window.clearTimeout(handle);
   }, [location.hash]);
 
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const [fetchedTestimonials, fetchedCoaches] = await Promise.all([
+          fetchCollection("testimonials"),
+          fetchCollection("coaches"),
+        ]);
+        // Debug: log fetched collections from Firestore
+        try {
+          console.log("fetched testimonials:", fetchedTestimonials);
+        } catch (e) {
+          console.log("unable to log fetched testimonials", e);
+        }
+        try {
+          console.log("fetched coaches:", fetchedCoaches);
+        } catch (e) {
+          console.log("unable to log fetched coaches", e);
+        }
+        if (!mounted) return;
+        setTestimonials(fetchedTestimonials);
+        setCoaches(fetchedCoaches);
+      } catch (e) {
+        console.error("Error fetching home collections", e);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   return (
     <main className="min-h-screen bg-background section-bg-green pattern-stripes">
       <Navbar />
@@ -51,9 +86,9 @@ const Index = () => {
       <About />
       <Achievements />
       <Founder />
-      <Coaches />
+      <Coaches coachesProp={coaches || undefined} />
       <Stats />
-      <Testimonials />
+      <Testimonials testimonialsProp={testimonials || undefined} />
       <FAQ />
       <Footer />
     </main>

@@ -1,0 +1,144 @@
+{
+  "players": {
+    "p1": {
+      "name": "Rahul Kumar",
+      "age": 16,
+      "training": "Advanced",
+      "status": "Available",
+      "stamina": 85,
+      "winRate": 75.5,
+      "speed": 88,
+      "techniques": 82,
+      "footwork": 90,
+      "wins": 45,
+      "losses": 15,
+      "remarks": "Excellent player with strong footwork.",
+      "batch": "evening",
+      "imageUrl": "",
+      "createdAt": { "__type": "serverTimestamp" }
+    },
+    "p2": {
+      "name": "Priya Sharma",
+      "age": 14,
+      "training": "Intermediate",
+      "status": "Available",
+      "stamina": 78,
+      "winRate": 62.3,
+      "speed": 75,
+      "techniques": 70,
+      "footwork": 72,
+      "wins": 28,
+      "losses": 17,
+      "remarks": "Improving steadily.",
+      "batch": "morning",
+      "imageUrl": "",
+      "createdAt": { "__type": "serverTimestamp" }
+    },
+    "p3": {
+      "name": "Arjun Patel",
+      "age": 18,
+      "training": "Advanced",
+      "status": "Injury",
+      "stamina": 60,
+      "winRate": 68.2,
+      "speed": 80,
+      "techniques": 85,
+      "footwork": 78,
+      "wins": 30,
+      "losses": 14,
+      "remarks": "Recovering from ankle injury.",
+      "batch": "weekend",
+      "imageUrl": "",
+      "createdAt": { "__type": "serverTimestamp" }
+    }
+  },
+  "tournaments": {
+    "t1": {
+      "name": "Academy Spring Open",
+      "startDate": { "__type": "timestamp", "value": "2025-03-25T00:00:00.000Z" },
+      "endDate": { "__type": "timestamp", "value": "2025-03-27T00:00:00.000Z" },
+      "venue": "Elite Arena",
+      "category": ["U16", "Singles"],
+      "status": "Upcoming",
+      "participantsCount": 32,
+      "createdAt": { "__type": "serverTimestamp" }
+    },
+    "t3": {
+      "name": "Winter Championship 2024",
+      "startDate": { "__type": "timestamp", "value": "2024-12-15T00:00:00.000Z" },
+      "endDate": { "__type": "timestamp", "value": "2024-12-18T00:00:00.000Z" },
+      "venue": "Elite Arena",
+      "category": ["Open", "Doubles"],
+      "status": "Completed",
+      "participantsCount": 16,
+      "winnerPlayerId": "p1",
+      "runnerUpPlayerId": "p3",
+      "createdAt": { "__type": "serverTimestamp" }
+    }
+  },
+  "matches": {
+    "m1": {
+      "tournamentId": "t3",
+      "scheduledAt": { "__type": "timestamp", "value": "2024-12-15T09:00:00.000Z" },
+      "court": "Court 1",
+      "status": "Finished",
+      "player1Id": "p1",
+      "player2Id": "p3",
+      "playerIds": ["p1", "p3"],
+      "sets": [
+        { "set": 1, "p1": 21, "p2": 18 },
+        { "set": 2, "p1": 19, "p2": 21 },
+        { "set": 3, "p1": 21, "p2": 16 }
+      ],
+      "winnerPlayerId": "p1",
+      "scoreText": "21-18, 19-21, 21-16",
+      "createdAt": { "__type": "serverTimestamp" }
+    },
+    "m2": {
+      "tournamentId": "t1",
+      "scheduledAt": { "__type": "timestamp", "value": "2025-03-25T10:30:00.000Z" },
+      "court": "Court 2",
+      "status": "Upcoming",
+      "player1Id": "p2",
+      "player2Id": "p1",
+      "playerIds": ["p2", "p1"],
+      "createdAt": { "__type": "serverTimestamp" }
+    }
+  },
+  "rankings": {
+    "spring2025_u16_singles": {
+      "season": "Spring 2025",
+      "category": "U16 Singles",
+      "updatedAt": { "__type": "serverTimestamp" },
+      "entries": {
+        "p1": {
+          "playerId": "p1",
+          "rank": 1,
+          "won": 24,
+          "points": 1250,
+          "consistency": 98,
+          "movement": "up",
+          "delta": 2
+        },
+        "p2": {
+          "playerId": "p2",
+          "rank": 2,
+          "won": 21,
+          "points": 1180,
+          "consistency": 92,
+          "movement": "down",
+          "delta": 1
+        },
+        "p3": {
+          "playerId": "p3",
+          "rank": 3,
+          "won": 19,
+          "points": 1100,
+          "consistency": 85,
+          "movement": "none",
+          "delta": 0
+        }
+      }
+    }
+  }
+}

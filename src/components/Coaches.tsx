@@ -3,7 +3,16 @@ import coach1 from "@/assets/coach-1.jpg";
 import coach2 from "@/assets/coach-2.jpg";
 import coach3 from "@/assets/coach-3.jpg";
 
-const coaches = [
+type Coach = {
+  id?: string | number;
+  name?: string;
+  role?: string;
+  image?: string;
+  specialization?: string;
+  experience?: string;
+};
+
+const defaultCoaches: Coach[] = [
   {
     name: "Rajesh Kumar",
     role: "Head Coach",
@@ -27,7 +36,8 @@ const coaches = [
   },
 ];
 
-export const Coaches = () => {
+export const Coaches = ({ coachesProp }: { coachesProp?: Coach[] }) => {
+  const coaches = coachesProp && coachesProp.length ? coachesProp : defaultCoaches;
   return (
     <section className="section-padding bg-card/30">
       <div className="container-custom mx-auto">
