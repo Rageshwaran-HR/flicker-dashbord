@@ -17,43 +17,43 @@ import { Check, ArrowRight } from "lucide-react";
 
 const plans = [
   {
-    name: "Foundation",
-    tag: "Best for beginners",
-    price: "₹1,999",
-    cadence: "/month",
-    description: "Build strong basics with structured drills and guided sessions.",
-    features: [
-      "3 sessions / week",
-      "Footwork + fundamentals",
-      "Beginner-friendly batches",
-      "Progress tracking",
-    ],
-  },
-  {
-    name: "Performance",
-    tag: "Most popular",
+    name: "Upper",
+    tag: "Competitive / Upper batch",
     highlighted: true,
-    price: "₹3,499",
+    price: "₹2,000",
     cadence: "/month",
-    description: "Level up faster with focused training, match play, and feedback.",
+    description: "Focused upper-batch training for competitive players.",
     features: [
       "5 sessions / week",
-      "Technique + conditioning",
-      "Weekly match practice",
-      "Coach feedback & goals",
+      "Advanced technique & tactics",
+      "Match-play focused",
+      "Coach feedback & goal-setting",
     ],
   },
   {
-    name: "Elite",
-    tag: "For competitive players",
-    price: "₹5,499",
+    name: "Intermediate",
+    tag: "Skill development",
+    price: "₹1,800",
     cadence: "/month",
-    description: "High-intensity coaching built for tournament preparation.",
+    description: "Structured intermediate training to close skill gaps.",
     features: [
-      "6 sessions / week",
-      "Advanced tactics",
-      "Tournament prep routines",
-      "Video analysis (selected)",
+      "4 sessions / week",
+      "Technique refinement",
+      "Conditioning",
+      "Regular match practice",
+    ],
+  },
+  {
+    name: "Advanced",
+    tag: "Performance",
+    price: "₹1,800",
+    cadence: "/month",
+    description: "Advanced-level sessions focused on competition preparedness.",
+    features: [
+      "5 sessions / week",
+      "Tactical training",
+      "Tournament prep",
+      "Optional video review",
     ],
   },
 ];
@@ -89,7 +89,7 @@ const Pricing = () => {
 
   return (
     <main className="min-h-screen bg-background">
-      <Navbar light glass />
+      <Navbar />
 
       {/* Hero */}
       <section className="relative overflow-hidden pt-28 pb-16 md:pt-32 md:pb-20">
@@ -154,8 +154,7 @@ const Pricing = () => {
                 FIND YOUR <span className="text-primary">FIT</span>
               </h2>
               <p className="text-muted-foreground mt-4 max-w-2xl">
-                Transparent pricing with flexible options. Fees may vary by batch timings and court
-                availability.
+                Transparent pricing with simple fees: <strong>Upper batch ₹2,000/month</strong>; <strong>Intermediate & Advanced other batches ₹1,800/month</strong>. Fees are fixed per batch and subject to limited court availability.
               </p>
             </div>
           </div>
@@ -234,6 +233,9 @@ const Pricing = () => {
                 <p className="text-muted-foreground mt-3">
                   Book a free trial and we’ll recommend the right batch based on your level and goals.
                 </p>
+                <div className="mt-4 inline-block bg-primary/10 border border-primary/20 text-primary px-4 py-2 rounded-lg font-semibold">
+                  Fee structure: <span className="font-bold">Upper ₹2,000/month</span>; <span className="font-bold">Intermediate & Advanced ₹1,800/month</span>
+                </div>
               </div>
               <Button variant="hero" size="lg" className="text-white" onClick={scrollToContact}>
                 Book Trial

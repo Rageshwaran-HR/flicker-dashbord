@@ -21,7 +21,7 @@ const stats = [
   },
   {
     icon: Target,
-    value: "6",
+    value: "2",
     label: "Professional Courts",
     description: "State-of-the-art facilities",
   },

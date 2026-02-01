@@ -43,8 +43,8 @@ export const About = () => {
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-transparent via-transparent to-transparent p-6">
                 <div className="grid grid-cols-3 gap-4">
                   {[
-                    { value: "6", label: "Courts" },
-                    { value: "15+", label: "Years" },
+                    { value: "2", label: "Courts" },
+                    { value: "2018", label: "Founded" },
                     { value: "100+", label: "Champions" },
                   ].map((stat, index) => (
                     <div key={index} className="text-center">
@@ -66,15 +66,17 @@ export const About = () => {
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed">
                 Flick Badminton Academy is Chennai's premier training facility, dedicated to nurturing 
-                talent and building champions. Our state-of-the-art facility features professional-grade 
-                courts, advanced training equipment, and a supportive environment where players of all 
-                levels can thrive.
+                talent and building champions. Our facility focuses on high-quality coaching rather than scale —
+                we operate with only two courts to ensure focused attention and better coach-to-player ratios.
               </p>
               <p className="text-muted-foreground mt-4">
                 Founded by Mr. Dinesh with a vision to make badminton accessible and excellence achievable, 
-                we've trained hundreds of students who've gone on to compete at district, state, and 
-                national levels.
+                our academy was started in 2018 only.
               </p>
+              <div className="mt-4 flex gap-3">
+                <div className="inline-block bg-primary/10 border border-primary/20 text-primary px-3 py-1 rounded-md font-semibold">Only 2 courts</div>
+                <div className="inline-block bg-primary/10 border border-primary/20 text-primary px-3 py-1 rounded-md font-semibold">Founded 2018</div>
+              </div>
             </div>
 
             {/* Features Grid */}

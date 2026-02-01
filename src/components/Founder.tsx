@@ -2,10 +2,10 @@ import { Quote } from "lucide-react";
 import founderImg from "@/assets/founder.jpg";
 
 const timeline = [
-  { year: "2010", event: "Founded Flick Badminton Academy" },
-  { year: "2013", event: "Expanded to 4 professional courts" },
-  { year: "2016", event: "First state-level champion produced" },
-  { year: "2019", event: "Opened advanced training center" },
+  { year: "2018", event: "Founded Flick Badminton Academy" },
+  { year: "2019", event: "Operating with 2 professional courts" },
+  { year: "2021", event: "First state-level champion produced" },
+  { year: "2022", event: "Opened advanced training programs" },
   { year: "2023", event: "100+ tournament victories milestone" },
 ];
 
@@ -67,8 +67,8 @@ export const Founder = () => {
               </div>
               {/* Floating Card */}
               <div className="absolute -bottom-6 -left-6 bg-primary text-primary-foreground rounded-2xl p-6 shadow-xl">
-                <div className="font-display text-4xl">15+</div>
-                <div className="text-sm opacity-90">Years of Excellence</div>
+                <div className="font-display text-2xl">Since</div>
+                <div className="font-display text-2xl">2018</div>
               </div>
             </div>
           </div>
