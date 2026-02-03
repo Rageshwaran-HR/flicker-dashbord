@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Trophy, Star } from "lucide-react";
 import achievement1 from "@/assets/achievement-1.jpg";
-import achievement2 from "@/assets/achievement-2.jpg";
-import achievement3 from "@/assets/achievement-3.jpg";
-import achievement4 from "@/assets/achievement-4.jpg";
-import achievement5 from "@/assets/achievement-5.jpg";
-import achievement6 from "@/assets/achievement-6.jpg";
+import achievement2 from "@/assets/achievement-2.jpeg";
+import achievement3 from "@/assets/achievement-3.jpeg";
+import achievement4 from "@/assets/achievement-4.jpeg";
+import achievement5 from "@/assets/achievement-5.jpeg";
+import achievement6 from "@/assets/achievement-6.jpeg";
 
 const achievements = [
   { id: 1, image: achievement1, title: "Junior League Winners", category: "U-13 Boys", year: "2024" },
@@ -86,15 +86,20 @@ export const Achievements = () => {
                   {achievements[currentIndex].year}
                 </div>
 
-                {/* Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-8">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Trophy className="w-5 h-5 text-flick-gold" />
-                    <span className="text-flick-gold font-semibold">{achievements[currentIndex].category}</span>
+                {/* Content: add highlighted overlay behind text for readability */}
+                <div className="absolute bottom-6 left-6 right-6">
+                  <div className="relative">
+                    <div className="absolute inset-0 rounded-2xl bg-black/55 backdrop-blur-sm" />
+                    <div className="relative z-10 p-4 md:p-6">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Trophy className="w-5 h-5 text-flick-gold" />
+                        <span className="text-flick-gold font-semibold">{achievements[currentIndex].category}</span>
+                      </div>
+                      <h3 className="font-display text-2xl md:text-3xl lg:text-4xl text-white uppercase leading-tight">
+                        {achievements[currentIndex].title}
+                      </h3>
+                    </div>
                   </div>
-                  <h3 className="font-display text-3xl md:text-4xl text-foreground uppercase">
-                    {achievements[currentIndex].title}
-                  </h3>
                 </div>
               </div>
             </div>
@@ -167,8 +172,8 @@ export const Achievements = () => {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-transparent" />
-                <div className="absolute bottom-2 left-2 right-2">
-                  <span className="text-xs font-medium text-foreground truncate block">
+                <div className="absolute bottom-2 left-2">
+                  <span className="text-xs font-medium bg-black/55 text-white px-2 py-1 rounded truncate block max-w-[85%]">
                     {achievement.title}
                   </span>
                 </div>

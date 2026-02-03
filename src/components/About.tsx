@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Target, Users, Trophy, Zap } from "lucide-react";
-import academyCourt from "@/assets/academy-court.jpg";
+import academyCourt from "@/assets/achievement-6.jpeg";
 
 const features = [
   {

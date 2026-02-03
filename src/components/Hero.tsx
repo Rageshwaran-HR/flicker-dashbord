@@ -96,17 +96,17 @@ export const Hero = () => {
               {[
                 {
                   img: academyCourt,
-                  title: "Batmintom",
+                  title: "BADMINTON ",
                   subtitle: "Summer Camp 2025",
                 },
                 {
                   img: ach1,
-                  title: "Batmintom",
+                  title: "BADMINTON ",
                   subtitle: "Elite Training Program",
                 },
                 {
                   img: ach2,
-                  title: "Batmintom",
+                  title: "BADMINTON ",
                   subtitle: "New Academy Magazine",
                 },
               ].map((card, idx) => (

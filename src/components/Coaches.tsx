@@ -1,7 +1,7 @@
 import { Instagram, Linkedin, Mail } from "lucide-react";
-import coach1 from "@/assets/coach-1.jpg";
-import coach2 from "@/assets/coach-2.jpg";
-import coach3 from "@/assets/coach-3.jpg";
+import coach1 from "@/assets/coach-1.jpeg";
+import coach2 from "@/assets/coach-2.jpeg";
+import coach3 from "@/assets/coach-3.jpeg";
 
 type Coach = {
   id?: string | number;
@@ -14,21 +14,21 @@ type Coach = {
 
 const defaultCoaches: Coach[] = [
   {
-    name: "Rajesh Kumar",
-    role: "Head Coach",
+    name: "Dinesh",
+    role: "Head of Badminton Operations",
     image: coach1,
     specialization: "Singles & Footwork",
     experience: "12+ years",
   },
   {
-    name: "Priya Sharma",
+    name: "Joseph",
     role: "Senior Coach",
     image: coach2,
     specialization: "Doubles & Strategy",
     experience: "8+ years",
   },
   {
-    name: "Arjun Patel",
+    name: "Manikandan",
     role: "Assistant Coach",
     image: coach3,
     specialization: "Junior Training",
@@ -83,15 +83,20 @@ export const Coaches = ({ coachesProp }: { coachesProp?: Coach[] }) => {
                 </div>
               </div>
 
-              {/* Content */}
-              <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-2 h-2 bg-primary rounded-full" />
-                  <span className="text-xs text-primary font-medium">{coach.experience}</span>
+              {/* Content with highlighted overlay for readability */}
+              <div className="absolute bottom-4 left-4 right-4">
+                <div className="relative">
+                  <div className="absolute inset-0 rounded-xl bg-black/55 backdrop-blur-sm" />
+                  <div className="relative z-10 p-4 md:p-6">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-2 h-2 bg-primary rounded-full" />
+                      <span className="text-xs text-primary font-medium">{coach.experience}</span>
+                    </div>
+                    <h3 className="font-display text-2xl md:text-3xl text-white mb-1">{coach.name}</h3>
+                    <p className="text-primary font-medium text-sm mb-2">{coach.role}</p>
+                    <p className="text-white/80 text-sm">{coach.specialization}</p>
+                  </div>
                 </div>
-                <h3 className="font-display text-2xl text-white mb-1">{coach.name}</h3>
-                <p className="text-primary font-medium text-sm mb-2">{coach.role}</p>
-                <p className="text-white/80 text-sm">{coach.specialization}</p>
               </div>
             </div>
           ))}

@@ -1,5 +1,5 @@
 import { Quote } from "lucide-react";
-import founderImg from "@/assets/founder.jpg";
+import founderImg from "@/assets/coach-1.jpeg";
 
 const timeline = [
   { year: "2018", event: "Founded Flick Badminton Academy" },
@@ -35,7 +35,7 @@ export const Founder = () => {
                 "Every champion was once a beginner who refused to give up. At Flick, we don't just 
                 teach badminton – we build character, discipline, and a winning mindset."
               </p>
-              <p className="text-primary font-semibold mt-4 pl-8">— Mr. Dinesh, Founder & Head Coach</p>
+              <p className="text-primary font-semibold mt-4 pl-8">— Mr. Dinesh, Founder & Head of Badminton Operations</p>
             </div>
 
             {/* Timeline */}
