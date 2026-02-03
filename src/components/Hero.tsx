@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Play, ChevronRight } from "lucide-react";
+import { whatsappLink } from "@/lib/utils";
 import heroBg from "@/assets/hero-bg.png";
 import academyCourt from "@/assets/academy-court.jpg";
 import ach1 from "@/assets/achievement-1.jpg";
@@ -47,7 +48,17 @@ export const Hero = () => {
 
           {/* CTA */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <Button variant="hero" size="lg" onClick={() => scrollToSection("#contact")}>
+            <Button
+              variant="hero"
+              size="lg"
+              onClick={() =>
+                window.open(
+                  whatsappLink("Hello, I would like to book a free trial."),
+                  "_blank",
+                  "noopener,noreferrer"
+                )
+              }
+            >
               Book Your Free Trial
             </Button>
 

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Phone } from "lucide-react";
+import { whatsappLink } from "@/lib/utils";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -136,7 +137,13 @@ export const Navbar = () => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => scrollToSection("#contact")}
+                onClick={() =>
+                  window.open(
+                    whatsappLink("Hello, I want to book a trial."),
+                    "_blank",
+                    "noopener,noreferrer"
+                  )
+                }
                 className={
                   useWhiteText
                     ? "text-white border-white/40 hover:border-white"
@@ -192,7 +199,13 @@ export const Navbar = () => {
               <div className="px-4 pt-4 flex flex-col gap-3">
                 <Button
                   variant="outline"
-                  onClick={() => scrollToSection("#contact")}
+                  onClick={() =>
+                    window.open(
+                      whatsappLink("Hello, I want to book a trial."),
+                      "_blank",
+                      "noopener,noreferrer"
+                    )
+                  }
                 >
                   <Phone className="w-4 h-4 mr-2" />
                   Book Your Trials

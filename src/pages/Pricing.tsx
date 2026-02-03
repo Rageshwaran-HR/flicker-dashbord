@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, ArrowRight } from "lucide-react";
+import { whatsappLink } from "@/lib/utils";
 
 const plans = [
   {
@@ -131,7 +132,17 @@ const Pricing = () => {
               className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-8 animate-fade-in"
               style={{ animationDelay: "0.3s" }}
             >
-              <Button variant="hero" size="lg" onClick={scrollToContact}>
+              <Button
+                variant="hero"
+                size="lg"
+                onClick={() =>
+                  window.open(
+                    whatsappLink("Hello, I would like to book a free trial."),
+                    "_blank",
+                    "noopener,noreferrer"
+                  )
+                }
+              >
                 Book Your Free Trial
               </Button>
               <Button variant="heroOutline" size="lg" onClick={() => navigate("/")}
@@ -206,13 +217,19 @@ const Pricing = () => {
 
                 <CardFooter className="relative">
                   <Button
-                    variant={plan.highlighted ? "glow" : "outline"}
-                    className="w-full"
-                    onClick={scrollToContact}
-                  >
-                    Enquire Now
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
+                      variant={plan.highlighted ? "glow" : "outline"}
+                      className="w-full"
+                      onClick={() =>
+                        window.open(
+                          whatsappLink(`Hi, I'm interested in the ${plan.name} plan.`),
+                          "_blank",
+                          "noopener,noreferrer"
+                        )
+                      }
+                    >
+                      Enquire Now
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
                 </CardFooter>
               </Card>
             ))}
@@ -237,7 +254,18 @@ const Pricing = () => {
                   Fee structure: <span className="font-bold">Upper ₹2,000/month</span>; <span className="font-bold">Intermediate & Advanced ₹1,800/month</span>
                 </div>
               </div>
-              <Button variant="hero" size="lg" className="text-white" onClick={scrollToContact}>
+              <Button
+                variant="hero"
+                size="lg"
+                className="text-white"
+                onClick={() =>
+                  window.open(
+                    whatsappLink("Hello, I want to book a trial."),
+                    "_blank",
+                    "noopener,noreferrer"
+                  )
+                }
+              >
                 Book Trial
                 <ArrowRight className="w-4 h-4" />
               </Button>
