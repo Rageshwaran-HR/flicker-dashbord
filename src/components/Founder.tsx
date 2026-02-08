@@ -4,7 +4,6 @@ import founderImg from "@/assets/coach-1.jpeg";
 const timeline = [
   { year: "2018", event: "Founded Flick Badminton Academy" },
   { year: "2019", event: "Operating with 2 professional courts" },
-  { year: "2021", event: "First state-level champion produced" },
   { year: "2022", event: "Opened advanced training programs" },
   { year: "2023", event: "100+ tournament victories milestone" },
 ];
@@ -22,8 +21,7 @@ export const Founder = () => {
                 MR. <span className="text-primary">DINESH</span>
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                A former state-level badminton player with over 15 years of coaching experience, 
-                Mr. Dinesh founded Flick Badminton Academy with a simple vision: to make quality 
+                With over 15 years of coaching experience, Mr. Dinesh founded Flick Badminton Academy with a simple vision: to make quality
                 badminton training accessible to everyone while nurturing the next generation of champions.
               </p>
             </div>

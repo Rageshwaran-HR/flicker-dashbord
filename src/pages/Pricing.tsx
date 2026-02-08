@@ -18,12 +18,12 @@ import { whatsappLink } from "@/lib/utils";
 
 const plans = [
   {
-    name: "Upper",
-    tag: "Competitive / Upper batch",
+    name: "Beginner",
+    tag: "Beginner batch",
     highlighted: true,
-    price: "₹2,000",
+    price: "₹1,800",
     cadence: "/month",
-    description: "Focused upper-batch training for competitive players.",
+    description: "Introductory beginner sessions to build fundamentals.",
     features: [
       "5 sessions / week",
       "Advanced technique & tactics",
@@ -34,7 +34,7 @@ const plans = [
   {
     name: "Intermediate",
     tag: "Skill development",
-    price: "₹1,800",
+    price: "₹2,000",
     cadence: "/month",
     description: "Structured intermediate training to close skill gaps.",
     features: [
@@ -47,7 +47,7 @@ const plans = [
   {
     name: "Advanced",
     tag: "Performance",
-    price: "₹1,800",
+    price: "₹2,000",
     cadence: "/month",
     description: "Advanced-level sessions focused on competition preparedness.",
     features: [
@@ -165,7 +165,7 @@ const Pricing = () => {
                 FIND YOUR <span className="text-primary">FIT</span>
               </h2>
               <p className="text-muted-foreground mt-4 max-w-2xl">
-                Transparent pricing with simple fees: <strong>Upper batch ₹2,000/month</strong>; <strong>Intermediate & Advanced other batches ₹1,800/month</strong>. Fees are fixed per batch and subject to limited court availability.
+                Transparent pricing with simple fees: <strong>Beginner ₹1,800/month</strong>; <strong>Intermediate & Advanced ₹2,000/month</strong>. Fees are fixed per batch and subject to limited court availability.
               </p>
             </div>
           </div>
@@ -251,7 +251,7 @@ const Pricing = () => {
                   Book a free trial and we’ll recommend the right batch based on your level and goals.
                 </p>
                 <div className="mt-4 inline-block bg-primary/10 border border-primary/20 text-primary px-4 py-2 rounded-lg font-semibold">
-                  Fee structure: <span className="font-bold">Upper ₹2,000/month</span>; <span className="font-bold">Intermediate & Advanced ₹1,800/month</span>
+                  Fee structure: <span className="font-bold">Beginner ₹1,800/month</span>; <span className="font-bold">Intermediate & Advanced ₹2,000/month</span>
                 </div>
               </div>
               <Button

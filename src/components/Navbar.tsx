@@ -72,8 +72,8 @@ export const Navbar = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${bgClass}`}
     >
-      <div className="container-custom mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-3 items-center h-20">
+      <div className="container-custom mx-auto">
+        <div className="relative flex items-center h-20">
           {/* ================= LOGO ================= */}
           <div className="flex items-center">
             <a
@@ -101,8 +101,8 @@ export const Navbar = () => {
             </a>
           </div>
 
-          {/* ================= DESKTOP NAV ================= */}
-          <div className="hidden lg:flex justify-center">
+          {/* ================= DESKTOP NAV (centered on large screens) ================= */}
+          <div className="hidden lg:flex absolute left-1/2 transform -translate-x-1/2">
             <div className="flex gap-8">
               {navLinks.map((link) => {
                 const isActive = activeLink === link.href;
@@ -132,7 +132,7 @@ export const Navbar = () => {
           </div>
 
           {/* ================= CTA + MOBILE BUTTON ================= */}
-          <div className="flex justify-end items-center gap-4">
+          <div className="ml-auto flex items-center gap-4">
             <div className="hidden lg:flex gap-4">
               <Button
                 variant="outline"
@@ -166,8 +166,9 @@ export const Navbar = () => {
             <button
               className={`lg:hidden p-2 ${
                 useWhiteText ? "text-white" : "text-foreground"
-              }`}
+              } mr-0`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle mobile menu"
             >
               {isMobileMenuOpen ? (
                 <X className="w-6 h-6" />
