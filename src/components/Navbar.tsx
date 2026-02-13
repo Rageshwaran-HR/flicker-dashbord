@@ -87,7 +87,9 @@ export const Navbar = () => {
               <img
                 src="/img/logo.png"
                 alt="Logo"
-                className="w-20 h-20 rounded-lg object-cover"
+                className={`w-20 h-20 rounded-lg object-cover transition-[filter] duration-300 ${
+                  isScrolled ? "brightness-0" : ""
+                }`}
               />
               <span
                 className={`font-display text-lg tracking-wider transition-colors ${

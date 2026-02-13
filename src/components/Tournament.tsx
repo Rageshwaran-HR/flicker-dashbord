@@ -111,26 +111,31 @@ export const Tournament = () => {
   function tournamentForTab(tab: TournamentTab) {
     if (!tournaments || tournaments.length === 0) return null;
     const now = Date.now();
-
     if (tab === "ongoing") {
+      // prefer explicit status first
       const ongoing = tournaments.find((t) => t.status === "Ongoing");
       if (ongoing) return ongoing;
-      // nearest upcoming (start >= now)
-      const nearestUpcoming = tournaments.filter((t) => t.startTs >= now).sort((a, b) => (a.startTs || 0) - (b.startTs || 0))[0];
-      if (nearestUpcoming) return nearestUpcoming;
-      // fallback to most recent completed
-      const recentPast = tournaments.filter((t) => t.startTs < now).sort((a, b) => (b.startTs || 0) - (a.startTs || 0))[0];
+
+      // next prefer upcoming tournaments (explicit status) or those with a start time >= now
+      const upcomingCandidates = tournaments.filter((t) => t.status === "Upcoming" || (t.startTs && t.startTs >= now));
+      if (upcomingCandidates.length) {
+        upcomingCandidates.sort((a, b) => (a.startTs || 0) - (b.startTs || 0));
+        return upcomingCandidates[0];
+      }
+
+      // fallback to recent completed tournaments
+      const recentPast = tournaments.filter((t) => t.status === "Completed" || (t.startTs && t.startTs < now)).sort((a, b) => (b.startTs || 0) - (a.startTs || 0))[0];
       return recentPast || tournaments[0];
     }
 
     if (tab === "future") {
-      const nearestUpcoming = tournaments.filter((t) => t.startTs >= now).sort((a, b) => (a.startTs || 0) - (b.startTs || 0))[0];
-      return nearestUpcoming || tournaments.find((t) => t.status === "Upcoming") || tournaments[0];
+      const future = tournaments.filter((t) => t.status === "Upcoming" || (t.startTs && t.startTs >= now)).sort((a, b) => (a.startTs || 0) - (b.startTs || 0))[0];
+      return future || tournaments[0];
     }
 
-    // past
-    const recentPast = tournaments.filter((t) => t.startTs < now).sort((a, b) => (b.startTs || 0) - (a.startTs || 0))[0];
-    return recentPast || tournaments.find((t) => t.status === "Completed") || tournaments[0];
+    // past: only return an explicit Completed tournament. If none exist, return null so UI shows NA.
+    const completed = tournaments.filter((t) => t.status === "Completed").sort((a, b) => (b.startTs || 0) - (a.startTs || 0))[0];
+    return completed || null;
   }
 
   return (
@@ -187,70 +192,79 @@ export const Tournament = () => {
           </h3>
 
           {/* Match Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-12">
-            {/* Left Player */}
-            <div className="text-center">
-              <img
-                src={IMAGES.leftPlayer}
-                className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-4 md:mb-5"
-                alt=""
-              />
-              <p className="text-sm text-black/50">#7 SAN DIEGO</p>
-              <h4 className="text-2xl font-extrabold mt-1">CHENNAI</h4>
-            </div>
+          {(() => {
+            const t = tournamentForTab(activeTab);
+            if (!t) {
+              return (
+                <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-12">
+                  <div className="text-center">
+                    <img src={IMAGES.leftPlayer} className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-4 md:mb-5" alt="" />
+                    <p className="text-sm text-black/50">NA</p>
+                    <h4 className="text-2xl font-extrabold mt-1">NA</h4>
+                  </div>
+                  <div className="bg-white rounded-3xl px-6 py-6 text-center shadow-[0_14px_28px_rgba(0,0,0,0.10)] w-full max-w-[320px] mx-auto md:mx-0">
+                    <p className="text-xs uppercase text-gray-500 mb-2">NA</p>
+                    <p className="text-sm mb-1">NA</p>
+                    <p className="text-2xl md:text-3xl font-extrabold mb-2">NA</p>
+                    <p className="text-xs text-gray-500 leading-relaxed mb-4">NA</p>
+                    <Button disabled className="bg-green-600 text-white rounded-full px-6 py-2 text-sm opacity-50 cursor-not-allowed">NA</Button>
+                  </div>
+                  <div className="text-center">
+                    <img src={IMAGES.rightPlayer} className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-4 md:mb-5" alt="" />
+                    <p className="text-sm text-black/50">NA</p>
+                    <h4 className="text-2xl font-extrabold mt-1">NA</h4>
+                  </div>
+                </div>
+              );
+            }
 
-            {/* Center Card */}
-            <div className="bg-white rounded-3xl px-6 py-6 text-center shadow-[0_14px_28px_rgba(0,0,0,0.10)] w-full max-w-[320px] mx-auto md:mx-0">
-                  {(() => {
-                    const t = tournamentForTab(activeTab);
-                    if (!t) {
-                      return (
-                        <>
-                          <p className="text-xs uppercase text-gray-500 mb-2">No tournament data</p>
-                          <p className="text-sm mb-1">TBA</p>
-                          <p className="text-2xl md:text-3xl font-extrabold mb-2">TBA</p>
-                          <p className="text-xs text-gray-500 leading-relaxed mb-4">Details will appear here when tournaments are available.</p>
-                          <Button disabled className="bg-green-600 text-white rounded-full px-6 py-2 text-sm opacity-50 cursor-not-allowed">TBA</Button>
-                        </>
-                      );
-                    }
+            // when a tournament exists, render details
+            const buttonText = t.status === "Completed" ? "View Results" : t.status === "Ongoing" ? "View Fixtures" : "Register";
+            const timeText = (() => {
+              if (t.startDate && typeof t.startDate.toDate === "function") {
+                try {
+                  const dt = t.startDate.toDate();
+                  return dt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+                } catch {
+                  return "TBA";
+                }
+              }
+              return "TBA";
+            })();
 
-                    const buttonText = t.status === "Completed" ? "View Results" : t.status === "Ongoing" ? "View Fixtures" : "Register";
-                    const timeText = (() => {
-                      if (t.startDate && typeof t.startDate.toDate === "function") {
-                        try {
-                          const dt = t.startDate.toDate();
-                          return dt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-                        } catch {
-                          return "TBA";
-                        }
-                      }
-                      return "TBA";
-                    })();
+            const categoryText = Array.isArray(t.category) ? t.category.join(" / ") : String(t.category ?? "");
+            const dateText = t.startDate && typeof t.startDate.toDate === "function" ? new Date(t.startDate.toDate()).toLocaleDateString() : t.date || "TBA";
 
-                    return (
-                      <>
-                        <p className="text-xs uppercase text-gray-500 mb-2">{t.name}</p>
-                        <p className="text-sm mb-1">{t.date || "TBA"}</p>
-                        <p className="text-2xl md:text-3xl font-extrabold mb-2">{timeText}</p>
-                        <p className="text-xs text-gray-500 leading-relaxed mb-4">{t.venue || "TBA"}</p>
-                        <Button className="bg-green-600 hover:bg-green-700 text-white rounded-full px-6 py-2 text-sm">{buttonText}</Button>
-                      </>
-                    );
-                  })()}
-            </div>
+            return (
+              <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-12">
+                <div className="text-center">
+                  <img src={IMAGES.leftPlayer} className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-4 md:mb-5" alt="" />
+                  <p className="text-sm text-black/50">{categoryText ? categoryText.toUpperCase() : "EVENT"}</p>
+                  <h4 className="text-2xl font-extrabold mt-1">{dateText}</h4>
+                </div>
+                <div className="bg-white rounded-3xl px-6 py-6 text-center shadow-[0_14px_28px_rgba(0,0,0,0.06)] w-full max-w-[340px] mx-auto md:mx-0">
+                  <div className="flex items-center justify-center gap-2 mb-3">
+                    <span className="text-xs uppercase text-muted-foreground bg-muted/20 px-3 py-1 rounded-full font-medium">{categoryText ? categoryText.toUpperCase() : "EVENT"}</span>
+                  </div>
 
-            {/* Right Player */}
-            <div className="text-center">
-              <img
-                src={IMAGES.rightPlayer}
-                className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-4 md:mb-5"
-                alt=""
-              />
-              <p className="text-sm text-black/50">#8 PACIFIC PALMS</p>
-              <h4 className="text-2xl font-extrabold mt-1">THIRUVALLUR</h4>
-            </div>
-          </div>
+                  <div className="text-sm text-slate-500 mb-1">{dateText || "TBA"}</div>
+
+                  <div className="text-3xl md:text-4xl font-extrabold tracking-tight mb-2 text-slate-900">{timeText}</div>
+
+                  <div className="text-sm text-muted-foreground mb-4">{t.venue || "TBA"}</div>
+
+                  <div className="h-px bg-slate-100 my-4"></div>
+
+                  {/* action button removed per design request */}
+                </div>
+                <div className="text-center">
+                  <img src={IMAGES.rightPlayer} className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-4 md:mb-5" alt="" />
+                  <p className="text-sm text-black/50">{timeText}</p>
+                  <h4 className="text-2xl font-extrabold mt-1">{t.venue || "TBA"}</h4>
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </div>
     </section>
